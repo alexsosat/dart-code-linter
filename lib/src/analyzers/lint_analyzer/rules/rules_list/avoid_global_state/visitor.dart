@@ -9,7 +9,8 @@ class _Visitor extends RecursiveAstVisitor<void> {
   void visitVariableDeclaration(VariableDeclaration node) {
     super.visitVariableDeclaration(node);
 
-    if (node.declaredElement?.enclosingElement is CompilationUnitElement) {
+    final parent = node.parent?.parent;
+    if (parent is TopLevelVariableDeclaration) {
       if (_isNodeValid(node)) {
         _declarations.add(node);
       }

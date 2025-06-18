@@ -79,11 +79,11 @@ class _Visitor extends RecursiveAstVisitor<void> {
   }
 
   bool _isNotInstance(DartType type, _TypedClassElement parentElement) =>
-      type.asInstanceOf(parentElement.element) == null;
+      type.asInstanceOf2(parentElement.element) == null;
 
   bool _isNotDynamic(DartType type) =>
       // ignore: deprecated_member_use
-      _isStrictMode || !(type.isDynamic || type.isDartCoreObject);
+      _isStrictMode || !(type is DynamicType || type.isDartCoreObject);
 
   List<_TypedClassElement>? _getMapTypeElement(DartType? type) =>
       _getTypeArgElements(getSupertypeMap(type));
@@ -105,9 +105,9 @@ class _Visitor extends RecursiveAstVisitor<void> {
     final typeArgElements = type.typeArguments
         .map((typeArg) {
           // ignore: deprecated_member_use
-          final element = typeArg.element;
+          final element = typeArg.element3;
 
-          return element is ClassElement
+          return element is ClassElement2
               ? _TypedClassElement(typeArg, element)
               : null;
         })
@@ -123,7 +123,7 @@ class _Visitor extends RecursiveAstVisitor<void> {
 
 class _TypedClassElement {
   final DartType type;
-  final ClassElement element;
+  final ClassElement2 element;
 
   _TypedClassElement(this.type, this.element);
 }

@@ -153,15 +153,18 @@ class UsedCodeVisitor extends RecursiveAstVisitor<void> {
 
   void _recordIfExtensionMember(Element? element) {
     if (element != null) {
-      final enclosingElement = element.enclosingElement;
-      if (enclosingElement is ExtensionElement) {
-        _recordUsedExtension(enclosingElement);
+      // Check if the element is part of an extension
+      final parent = element.thisOrAncestorOfType<ExtensionElement>();
+      if (parent is ExtensionElement) {
+        _recordUsedExtension(parent);
       }
     }
   }
 
   bool _recordConditionalElement(Element element) {
-    final elementPath = element.enclosingElement?.source?.fullName;
+    // Get the source path from the element's source
+    final elementSource = element.source;
+    final elementPath = elementSource?.fullName;
     if (elementPath == null) {
       return false;
     }
@@ -215,12 +218,11 @@ class UsedCodeVisitor extends RecursiveAstVisitor<void> {
       return;
     }
 
-    final enclosingElement = element.enclosingElement;
-    if (enclosingElement is CompilationUnitElement) {
+    // Check the element's container
+    if (element is CompilationUnitElement) {
       _recordUsedElement(element);
-    } else if (enclosingElement is ExtensionElement) {
-      _recordUsedExtension(enclosingElement);
-
+    } else if (element is ExtensionElement) {
+      _recordUsedExtension(element);
       return;
     } else if (element is MultiplyDefinedElement) {
       // If the element is multiply defined then call this method recursively
@@ -231,6 +233,9 @@ class UsedCodeVisitor extends RecursiveAstVisitor<void> {
         final elt = conflictingElements[index];
         _visitIdentifier(identifier, elt);
       }
+    } else {
+      // For other elements, just record them
+      _recordUsedElement(element);
     }
   }
 

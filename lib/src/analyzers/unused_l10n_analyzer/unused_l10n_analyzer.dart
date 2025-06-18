@@ -113,7 +113,13 @@ class UnusedL10nAnalyzer {
       final visitor = UnusedL10nVisitor(classPattern);
       unit.unit.visitChildren(visitor);
 
-      return visitor.invocations;
+      // Convert ClassElement2 to ClassElement
+      final result = <ClassElement, Set<String>>{};
+      visitor.invocations.forEach((key, value) {
+        result[key as ClassElement] = value;
+      });
+
+      return result;
     }
 
     return {};

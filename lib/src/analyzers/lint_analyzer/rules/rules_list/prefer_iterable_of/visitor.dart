@@ -18,8 +18,7 @@ class _Visitor extends RecursiveAstVisitor<void> {
       final castedType = _getType(node.staticType);
       if (argumentType != null &&
           !argumentType.isDartCoreObject &&
-          // ignore: deprecated_member_use
-          !argumentType.isDynamic &&
+          argumentType is! DynamicType &&
           _isUnnecessaryTypeCheck(castedType, argumentType)) {
         _expressions.add(node);
       }
