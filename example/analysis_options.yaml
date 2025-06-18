@@ -38,14 +38,19 @@ dart_code_linter:
   #     unit-type: "hours"
 
   # Dart Code Linter provides custom configurable rules.
-  # The rules have a `kebab-case` naming instead of 
+  # The rules have a `kebab-case` naming instead of
   # `snake_case` intentionally in order for you to identify,
   # whether the rule is from Dart Code Metrics or the standard analyzer.
   # All rules share basic configuration like `exclude` section,
   # but some also have a rule-specific one.
   # Not all rules are listed here, the full list can be found on our website: https://github.com/bancolombia/dart-code-linter/wiki/Rules
   rules:
+    - avoid-border-all
     - avoid-top-level-members-in-tests
+    - avoid-dynamic
+    - avoid-global-state
+    - avoid-passing-async-when-sync-expected
+    - avoid-ignoring-return-values
     - avoid-collection-methods-with-unrelated-types
     - avoid-missing-enum-constant-in-map
     - avoid-unnecessary-type-assertions
@@ -53,15 +58,24 @@ dart_code_linter:
     - avoid-unused-parameters
     - newline-before-return
     - prefer-first-or-null
+    - prefer-conditional-expressions
     - no-blank-line-before-single-return
     - no-boolean-literal-compare
     - no-empty-block
+    - format-comment
     - prefer-single-quotes
+    - prefer-const-border-radius
     - no-equal-then-else
     - prefer-async-await
+    - check-for-equals-in-render-object-setters
+    - prefer-iterable-of
+    - prefer-moving-to-variable
+    - avoid-unrelated-type-assertions:
+        ignore-mixins: false
     - prefer-correct-type-name:
         max-length: 44
     - prefer-match-file-name:
         exclude:
           - test/**
     - prefer-trailing-comma
+    - use-setstate-synchronously
